@@ -2,11 +2,11 @@ import http from 'http';
 
 import express  from 'express';
 import mongoose from "mongoose";
+import 'dotenv/config'
 
-const MONGODB_URI = 'mongodb+srv://ecommerceadmin:yFs4DRBhiUFJtW1k@cluster0.dajd3ob.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = `${process.env.EC_MONGO_CONNECTION_STRING_SCHEME}://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.EC_MONGO_URL}/`;
 
 const app = express();
-
 
 mongoose.connect(MONGODB_URI)
         .then((result) => {
