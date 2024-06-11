@@ -1,0 +1,25 @@
+{
+  "db": {
+    "development": {
+      "database": "express_nuxt_dev_db",
+      "host": "localhost",
+      "port": "27017",
+      "use_env_variable": false,
+      "options": {
+        "useUnifiedTopology": true
+      },
+      "debug": true
+    },
+    "production": {
+      "database": "express-nuxt",
+      "host": "localhost",
+      "port": "27017",
+      "use_env_variable": "MONGO_ATLAS_URL",
+      "options": {}
+    }
+  },
+  "access": {
+    "user": 1,
+    "admin": 2
+  }
+}
