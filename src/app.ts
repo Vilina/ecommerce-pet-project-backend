@@ -1,20 +1,25 @@
-import http from 'http';
+import express, { Application } from 'express';
+import connectToDatabase from '../src/db_connection/db_connect'
+import routers from './routes';
 
-import express  from 'express';
-import mongoose from "mongoose";
+// Create Express application
+const app: Application = express();
 
-const MONGODB_URI = 'mongodb+srv://ecommerceadmin:yFs4DRBhiUFJtW1k@cluster0.dajd3ob.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// Middleware to parse JSON bodies
+app.use(express.json());
+// Middleware for routing
+app.use(routers);
 
-const app = express();
+// Connect to the database
+connectToDatabase().catch((err) => {
+    console.error(`Failed to connect to database: ${err}`);
+});
 
+// Define port number, defaulting to 8000 if not provided in environment
+const PORT = process.env.PORT || 8000;
 
-mongoose.connect(MONGODB_URI)
-        .then((result) => {
-          console.log("Connected to MongoDB");
-          // console.log(result);
-          app.listen(8000);
-        }).catch(err => {
-          console.log(err);
-        })
-
+// Start Express server
+app.listen(PORT, () => {
+    console.log(`Running on Port ${PORT}`);
+});
 
