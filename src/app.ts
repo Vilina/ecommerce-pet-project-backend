@@ -1,25 +1,20 @@
-import express, { Application } from 'express';
-import connectToDatabase from '../src/db_connection/db_connect'
-import routers from './routes';
+import express  from 'express';
+import connectToDatabase from "./db_connection/db_connect"
 
-// Create Express application
-const app: Application = express();
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-// Middleware for routing
-app.use(routers);
+const app = express();
 
 // Connect to the database
-connectToDatabase().catch((err) => {
+connectToDatabase().catch((err: Error) => {
     console.error(`Failed to connect to database: ${err}`);
 });
 
-// Define port number, defaulting to 8000 if not provided in environment
+
 const PORT = process.env.PORT || 8000;
 
 // Start Express server
-app.listen(PORT, () => {
-    console.log(`Running on Port ${PORT}`);
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });
+
+
 
