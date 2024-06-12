@@ -19,10 +19,6 @@ export const getUsers = async (req: Request, res: Response) => {
 /**
  * Controller for fetching a user by ID.
  */
-// export const getUserById = async (req: Request, res: Response) => {
-//     const { user } = req;
-//     res.json(user);
-// };
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {

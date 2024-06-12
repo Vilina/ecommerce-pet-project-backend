@@ -12,7 +12,7 @@ connectToDatabase().catch((err: Error) => {
 const PORT = process.env.PORT || 8000;
 
 // Start Express server
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('Server is running on port 3000');
 });
 
