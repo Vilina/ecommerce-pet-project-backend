@@ -2,8 +2,12 @@
   "db": {
     "development": {
       "database": "express_nuxt_dev_db",
-      "host": "localhost",
-      "port": "27017",
+      "root_username": "MONGO_INITDB_ROOT_USERNAME",
+      "root_password": "MONGO_INITDB_ROOT_PASSWORD",
+      "me_basic_auth_username": "ME_CONFIG_BASICAUTH_USERNAME",
+      "me_basic_auth_password": "ME_CONFIG_BASICAUTH_PASSWORD",
+      "mongo_host_port": "EC_MONGO_URL",
+      "mongo_connection_string": "EC_MONGO_CONNECTION_STRING_SCHEME",
       "use_env_variable": false,
       "options": {
         "useUnifiedTopology": true
@@ -12,9 +16,13 @@
     },
     "production": {
       "database": "express-nuxt",
-      "host": "localhost",
-      "port": "27017",
-      "use_env_variable": "MONGO_ATLAS_URL",
+      "root_username": "MONGO_INITDB_ROOT_USERNAME",
+      "root_password": "MONGO_INITDB_ROOT_PASSWORD",
+      "me_basic_auth_username": "ME_CONFIG_BASICAUTH_USERNAME",
+      "me_basic_auth_password": "ME_CONFIG_BASICAUTH_PASSWORD",
+      "mongo_host_port": "EC_MONGO_URL",
+      "mongo_connection_string": "EC_MONGO_CONNECTION_STRING_SCHEME",
+      "use_env_variable": true,
       "options": {}
     }
   },

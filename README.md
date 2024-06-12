@@ -19,7 +19,7 @@ For development, you can start the development server by running the following c
 npm run dev
 ```
 
-This will start the server on `http://localhost:8000`. The server will automatically restart when changes are detected in the project files.
+This will run `docker compose up -d --no-recreate && docker compose start` for running  [MongoDb](#mongodb) in container and the server on `http://localhost:8000`. The server will automatically restart when changes are detected in the project files.
 For that the project uses [Nodemon](#nodemon) package.
 
 ### Typescript
@@ -57,3 +57,28 @@ It's a devDependency in the project. The following script will start the applica
 ```bash
 npm run dev 
 ```
+
+### Mongodb
+
+This project uses MongoDB as a database. We use [Mongoose](https://mongoosejs.com/) as an ODM for MongoDB.
+
+#### local development
+For local development we use a MongoDB Docker container. The following command will start the MongoDB container manually:
+
+```bash
+docker compose up -d
+```
+or you can run the project, and it will be up if it didn't exist.
+```bash
+npm run dev 
+```
+Container uses named `Volume` for data persistence.
+
+Connection params are read from the `.env` file.
+
+###### Mongo Express
+Is a user a web-based MongoDB admin interface that will be available on `http://localhost:8081` after running the project for development.
+
+#### Production
+
+For production, we use MongoDB Atlas. Connection params are read from the `.env.production` file.
