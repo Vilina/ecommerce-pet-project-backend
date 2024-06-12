@@ -9,9 +9,7 @@
       "mongo_host_port": "EC_MONGO_URL",
       "mongo_connection_string": "EC_MONGO_CONNECTION_STRING_SCHEME",
       "use_env_variable": false,
-      "options": {
-        "useUnifiedTopology": true
-      },
+      "options": {},
       "debug": true
     },
     "production": {
