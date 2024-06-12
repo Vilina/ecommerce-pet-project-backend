@@ -46,10 +46,8 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 export const createUser = async (req: Request, res: Response) => {
     try {
         const userData = req.body;
-        // const userDao = new UserDao(UserModel)
-        // const newUser = await userDao.createUser(userData);
-        const newUser:any= new UserModel(userData)
-
+        const userDao = new UserDao(UserModel)
+        const newUser = await userDao.createUser(userData);
         res.status(201).json(newUser);
     } catch (error) {
         console.error('Error creating user:', error);
