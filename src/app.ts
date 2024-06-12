@@ -1,17 +1,17 @@
-import http from 'http';
-
 import express  from 'express';
 import mongoose from "mongoose";
-import 'dotenv/config'
+import nconf from './config/index';
 
-const MONGODB_URI = `${process.env.EC_MONGO_CONNECTION_STRING_SCHEME}://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.EC_MONGO_URL}/`;
+const env = nconf.get('NODE_ENV') || 'development';
+const dbConfig = nconf.get(`db:${env}`);
+
+const MONGODB_URI: string = `${nconf.get(dbConfig.mongo_connection_string)}://${nconf.get(dbConfig.root_username)}:${nconf.get(dbConfig.root_password)}@${nconf.get(dbConfig.mongo_host_port)}/`
 
 const app = express();
 
 mongoose.connect(MONGODB_URI)
         .then((result) => {
           console.log("Connected to MongoDB");
-          // console.log(result);
           app.listen(8000);
         }).catch(err => {
           console.log(err);
