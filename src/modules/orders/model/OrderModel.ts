@@ -1,6 +1,6 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { IUser } from './UserModel';
-import { IProduct } from './ProductModel';
+import { IUser } from '../../users/model/UserModel';
+import { IProduct } from '../../products/model/ProductModel';
 
 // Define the IOrder interface
 export interface IOrder extends Document {
