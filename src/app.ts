@@ -5,6 +5,7 @@ import userRouter from './routes/users'
 const app = express();
 app.use(express.json());
 app.use(userRouter);
+console.log('TEST TEST TEST TEST TEST TEST TEST TEST ')
 
 // Connect to the database
 connectToDatabase().catch((err: Error) => {
