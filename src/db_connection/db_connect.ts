@@ -1,14 +1,14 @@
-import mongoose, {connection} from 'mongoose';
+import mongoose from 'mongoose';
 import nconf from '../config/index';
 
 const connectToDatabase = async () => {
     // Get environment from configuration, default to 'development'
     const env = nconf.get('NODE_ENV') || 'development';
     const db = nconf.get(`db`);
-    const dbEnvConfig = db[env]
     console.log(env, "${env}");
-    console.log(`db:${env}`, "db:${env}");
     console.log(db, "dbConfig");
+    console.log(`db:${env}`, "db:${env}");
+    const dbEnvConfig = db[env]
     console.log(dbEnvConfig, "dbConfig env");
 
     // Construct connection URL
