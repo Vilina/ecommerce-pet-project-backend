@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from 'express';
 import UserDao from '../dao/UserDao';
-import UserModel from "../models/UserModel";
+import UserModel from "../model/UserModel";
 
 /**
  * Controller for fetching all users.
