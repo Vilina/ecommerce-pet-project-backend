@@ -8,9 +8,13 @@ app.use(userRouter);
 console.log('TEST TEST TEST TEST TEST TEST TEST TEST ')
 
 // Connect to the database
-connectToDatabase().catch((err: Error) => {
-    console.error(`Failed to connect to database: ${err}`);
-});
+connectToDatabase()
+    .then((result)=>{
+        console.log(result, "result")
+    })
+    .catch((err: Error) => {
+        console.error(`Failed to connect to database: ${err}`);
+    });
 
 
 const PORT = process.env.PORT || 8000;
