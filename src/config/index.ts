@@ -6,6 +6,7 @@ const nconf = require('nconf');
 dotenv.config();
 
 // Set up nconf to use (in order): command-line arguments, environment variables, config file
+console.log(__dirname, "dirname");
 nconf.argv().env().file({ file: path.join(__dirname, 'config.json') });
 
 
