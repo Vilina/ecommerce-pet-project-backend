@@ -1,11 +1,12 @@
 import express from 'express';
 import * as ProductController from '../controller/productController';
+import imageUpload  from "../../../middleware/image-upload/multer";
 
 
 const router = express.Router();
 
 // POST /products - Create a new product
-router.post('/product', ProductController.createProduct);
+router.post('/products', imageUpload, ProductController.createProduct);
 
 // GET /products/:id - Retrieve a product by its ID
 router.get('/products/:id', ProductController.getProductById);
