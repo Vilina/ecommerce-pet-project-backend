@@ -10,12 +10,12 @@ router.get('/users', UserController.getUsers);
 // router.get('users/:id', UserController.getUserById);
 
 // POST /users
-router.post('/user', UserController.createUser);
+router.post('/users', UserController.createUser);
 
 // PUT /users/:id
-router.put('/user/:id', UserController.updateUserById);
+router.put('/users/:id', UserController.updateUserById);
 
 // DELETE /users/:id
-router.delete('user/:id', UserController.deleteUserById);
+router.delete('users/:id', UserController.deleteUserById);
 
 export default router;
