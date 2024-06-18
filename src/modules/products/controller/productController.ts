@@ -11,20 +11,23 @@ import ProductModel from "../model/ProductModel";
 export const createProduct =  async (req: any, res: Response) => {
     try {
         const productDao = new ProductDao(ProductModel);
+        if(req.files && req.files.length > 0) {
+            // Assert the type of req.files to Express.Multer.File[]
+            const files = req.files as Express.Multer.File[];
+            const filePaths: string[] = files?.map((file) => `uploads/${file.filename}`) || [];
+            // Prepare product data including file paths
+            const productObject = JSON.parse(req.body.data);
+            const productData = {
+                ...productObject,
+                image: [...filePaths, ...productObject.image],
+            };
+            const product = await productDao.createProduct(productData);
+            res.status(201).json(product);
+        } else {
+            const product = await productDao.createProduct(req.body);
+            res.status(201).json(product);
+        }
 
-        // Assert the type of req.files to Express.Multer.File[]
-        const files = req.files as Express.Multer.File[];
-        const filePaths: string[] = files?.map((file) => `uploads/${file.filename}`) || [];
-
-        // Prepare product data including file paths
-        const productObject = JSON.parse(req.body.data);
-        const productData = {
-            ...productObject,
-            image: filePaths,
-        };
-
-        const product = await productDao.createProduct(productData);
-        res.status(201).json(product);
     } catch (error) {
       res.status(500).json({ message: 'Error creating product', error });
     }
