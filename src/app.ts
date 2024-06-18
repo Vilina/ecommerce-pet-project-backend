@@ -9,18 +9,25 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(userRouter);
 app.use(productRouter);
-
-// Connect to the database
-connectToDatabase().catch((err: Error) => {
-    console.error(`Failed to connect to database: ${err}`);
-});
-
-
 const PORT = process.env.PORT || 8000;
 
-// Start Express server
-app.listen(PORT, () => {
-    console.log(`Server is running on port=${PORT}`);
-});
+
+// Function to start the Express server
+const startServer = async () => {
+    try {
+        await connectToDatabase();
+        app.listen(PORT, () => {
+            console.log(`Server is running on port=${PORT}`);
+        });
+    } catch (error) {
+        console.error(`Failed to connect to database: ${error}`);
+        process.exit(1); // Exit the process with failure code
+    }
+};
+
+// Start the server
+startServer();
+
+
 
 
