@@ -82,3 +82,10 @@ Is a user a web-based MongoDB admin interface that will be available on `http://
 #### Production
 
 For production, we use MongoDB Atlas. Connection params are read from the `.env.production` file.
+
+
+#### Deployment
+
+The project is deployed on Heroku. The deployment is done automatically when pushing to the `main` branch.
+
+
