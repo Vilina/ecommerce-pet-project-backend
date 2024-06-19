@@ -1,11 +1,11 @@
-import express  from 'express';
+import express, {Express} from 'express';
 import connectToDatabase from "./db_connection/db_connect"
 import userRouter from './modules/users/routes/users'
 
-const app = express();
+const app :Express = express();
 app.use(express.json());
 app.use(userRouter);
-const PORT = process.env.PORT || 8000;
+const PORT: string | number = process.env.PORT || 8000;
 
 
 // Function to start the Express server
