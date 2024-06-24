@@ -2,11 +2,11 @@
   "name": "yes",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/app.ts",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "docker compose up -d --no-recreate && docker compose start && nodemon src/app.ts",
-    "copy-config": "mv -i -v src/config/config.json dist/config/",
+    "copy-config": "cp -i -v src/config/config.json dist/config/",
     "start": "tsc && npm run copy-config && node dist/app.js",
     "build": "tsc && npm run copy-config"
   },

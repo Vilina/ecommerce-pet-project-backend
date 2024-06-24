@@ -1,10 +1,11 @@
 import express, {Express} from 'express';
 import connectToDatabase from "./db_connection/db_connect"
-import userRouter from './modules/users/routes/users'
+import routes from "./routes";
 
 const app :Express = express();
 app.use(express.json());
-app.use(userRouter);
+
+app.use("/", routes);
 const PORT: string | number = process.env.PORT || 8000;
 
 
@@ -23,6 +24,8 @@ const startServer = async () => {
 
 // Start the server
 startServer();
+
+export default app;
 
 
 
