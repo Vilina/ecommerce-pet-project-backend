@@ -1,9 +1,10 @@
 import express, {Express} from 'express';
 import connectToDatabase from "./db_connection/db_connect"
 import routes from "./routes";
+import bodyParser from 'body-parser';
 
 const app :Express = express();
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.use("/", routes);
 const PORT: string | number = process.env.PORT || 8000;
