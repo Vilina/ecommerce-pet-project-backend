@@ -17,5 +17,5 @@ logs
 !.env.example
 
 # Build files
-dist
+
 .vercel
