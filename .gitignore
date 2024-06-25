@@ -18,3 +18,5 @@ logs
 
 # Build files
 dist
+api
+.vercel

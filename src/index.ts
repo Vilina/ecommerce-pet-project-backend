@@ -1,11 +1,13 @@
-import express  from 'express';
+import express, {Express} from 'express';
 import connectToDatabase from "./db_connection/db_connect"
-import userRouter from './modules/users/routes/users'
+import routes from "./routes";
+import bodyParser from 'body-parser';
 
-const app = express();
-app.use(express.json());
-app.use(userRouter);
-const PORT = process.env.PORT || 8000;
+const app :Express = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/", routes);
+const PORT: string | number = process.env.PORT || 8000;
 
 
 // Function to start the Express server
@@ -23,6 +25,8 @@ const startServer = async () => {
 
 // Start the server
 startServer();
+
+module.exports = app;
 
 
 
