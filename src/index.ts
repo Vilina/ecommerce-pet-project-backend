@@ -26,7 +26,7 @@ const startServer = async () => {
 // Start the server
 startServer();
 
-export default app;
+module.exports = app;
 
 
 
