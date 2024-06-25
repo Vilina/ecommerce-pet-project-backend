@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "docker compose up -d --no-recreate && docker compose start && nodemon src/index.ts",
     "copy-config": "cp -i -v src/config/config.json api/config/",
-    "start": "node api/index.js",
+    "start": "tsc && npm run copy-config && node api/index.js",
     "build": "tsc && npm run copy-config"
   },
   "author": "",
