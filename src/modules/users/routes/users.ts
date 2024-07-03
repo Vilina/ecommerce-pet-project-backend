@@ -1,21 +1,19 @@
 import { Router } from 'express';
 import * as UserController from '../../users/controller/userController';
+import {authorizeRoles, authorizedUser} from "../../../middleware/passport/authorization";
 
 const router = Router();
 
 // GET /users
-router.get('/users', UserController.getUsers);
+router.get('/users', authorizeRoles('admin'), UserController.getUsers);
 
 // GET /users/:id
-// router.get('users/:id', UserController.getUserById);
-
-// POST /users
-router.post('/user', UserController.createUser);
+router.get('users/:id',authorizedUser(), UserController.getUserById);
 
 // PUT /users/:id
-router.put('/user/:id', UserController.updateUserById);
+router.put('/users/:id', authorizedUser(), UserController.updateUserById);
 
 // DELETE /users/:id
-router.delete('user/:id', UserController.deleteUserById);
+router.delete('users/:id', authorizedUser(), UserController.deleteUserById);
 
 export default router;

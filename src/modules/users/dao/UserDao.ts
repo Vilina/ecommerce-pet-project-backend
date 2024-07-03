@@ -1,5 +1,5 @@
 import BaseDao from '../../../dao/BaseDao';
-import UserModel, { IUser } from '../model/UserModel';
+import { IUser } from '../model/UserModel';
 import { Model } from 'mongoose';
 
 /**
