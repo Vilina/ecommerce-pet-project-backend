@@ -8,7 +8,6 @@
     "dev": "docker compose up -d --no-recreate && docker compose start && nodemon src/app.ts",
     "start": "tsc && node dist/app.js",
     "build": "tsc",
-    "postinstall": "tsc && mv -i -v src/config/config.json dist/config/"
   },
   "author": "",
   "dependencies": {
