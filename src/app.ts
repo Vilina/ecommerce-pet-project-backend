@@ -6,7 +6,7 @@ import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
 import "./middleware/passport/strategies/local-strategy"
-import {setVisitedSession} from "./middleware/passport/authorization";
+import {setVisitedSession} from "./middleware/passport/authenticated";
 const router = Router();
 
 

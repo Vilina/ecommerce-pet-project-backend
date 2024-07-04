@@ -19,7 +19,7 @@ export const authorizeRoles = (...roles: string[]) => {
     };
 };
 
-export const authorizedUser = () => {
+export const authorizeUser = () => {
     return (req: Request, res: Response, next: NextFunction) => {
         if (!req.isAuthenticated()) {
             // Return 403 Forbidden if user is not authenticated
