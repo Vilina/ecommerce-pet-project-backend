@@ -42,6 +42,7 @@ const PORT = process.env.PORT || 8000;
 // Function to start the Express server
 const startServer = async () => {
     try {
+        console.log('aaaa')
         await connectToDatabase();
         app.listen(PORT, () => {
             console.log(`Server is running on port=${PORT}`);
