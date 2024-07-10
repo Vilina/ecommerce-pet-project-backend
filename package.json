@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "docker compose up -d --no-recreate && docker compose start && nodemon src/app.ts",
-    "copy-config": "cp -i -v src/config/config.json dist/config/",
+    "copy-config": "cp -v src/config/config.json dist/config/",
     "start": "tsc && npm run copy-config && node dist/app.js",
     "build": "tsc",
     "postbuild": "npm run copy-config",
