@@ -13,13 +13,13 @@ export const createProduct =  async (req: any, res: Response) => {
         const productDao = new ProductDao(ProductModel);
         if(req.files && req.files.length > 0) {
             // Assert the type of req.files to Express.Multer.File[]
-            const files = req.files as Express.Multer.File[];
-            const filePaths: string[] = files?.map((file) => `uploads/${file.filename}`) || [];
+            const files: Express.MulterS3.File[] = req.files;
+            const filePaths: string[] = files?.map(file => ( file.location )) || [];
             // Prepare product data including file paths
             const productObject = JSON.parse(req.body.data);
             const productData = {
                 ...productObject,
-                image: [...filePaths, ...productObject.image],
+                images: [...filePaths, ...productObject.image],
             };
             const product = await productDao.createProduct(productData);
             res.status(201).json(product);
