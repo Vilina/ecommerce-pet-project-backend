@@ -39,6 +39,7 @@ passport.serializeUser((user, done) => {
     done(null, (user as IUser).id.toString());
 });
 
+
 // Deserialize the user object based on the ID stored in the session
 passport.deserializeUser(async (id, done) => {
     try {
