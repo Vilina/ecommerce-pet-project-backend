@@ -47,7 +47,7 @@ const userSchema = new Schema<IUser>({
     orderHistory: [{ type: Types.ObjectId, ref: 'Order' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-}, { timestamps: true }); // Enable timestamps to automatically handle `createdAt` and `updatedAt`
+}, { timestamps: true });
 
 // Create the User model
 const UserModel = model<IUser>('User', userSchema);
