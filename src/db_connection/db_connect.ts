@@ -1,20 +1,17 @@
 import mongoose from 'mongoose';
-import nconf from '../config/index';
+import config from '../config/index';
 
 const connectToDatabase = async () => {
-    // Get environment from configuration, default to 'development'
-    const env = nconf.get('NODE_ENV') || 'development';
-    const db = nconf.get(`db`);
-    const dbEnvConfig = db[env]
+
 
     // Construct connection URL
-    const MONGODB_URI: string = `${nconf.get(dbEnvConfig.mongo_connection_string)}://${nconf.get(dbEnvConfig.root_username)}:${nconf.get(dbEnvConfig.root_password)}@${nconf.get(dbEnvConfig.mongo_host_port)}/`
+    const MONGODB_URI: string = `${config.mongo_connection_string}://${config.root_username}:${config.root_password}@${config.mongo_host_port}/`
 
     try {
-        let mongooseConnect  =  await mongoose.connect(MONGODB_URI, dbEnvConfig.options);
+        let mongooseConnect  =  await mongoose.connect(MONGODB_URI, config.options);
         console.log('Mongo connected');
         // Enable Mongoose debug mode if configured
-        if (dbEnvConfig.debug) {
+        if (config.debug) {
             mongoose.set('debug', true);
         }
         return mongooseConnect;

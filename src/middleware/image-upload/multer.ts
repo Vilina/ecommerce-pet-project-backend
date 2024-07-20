@@ -1,25 +1,11 @@
 import multer from "multer"
 import path from 'path';
 import { RequestHandler} from 'express';
-import { S3Client} from '@aws-sdk/client-s3';
 import multerS3 from 'multer-s3';
-import nconf from '../../config/index';
+import config from '../../config/index';
+import s3 from '../../libs/s3Client';
 
-// Get environment from configuration, default to 'development'
-const env = nconf.get('NODE_ENV') || 'development';
-const db = nconf.get(`db`);
-const dbEnvConfig = db[env]
-
-const s3 = new S3Client({
-    region:  nconf.get(dbEnvConfig.aws_region),
-    credentials: {
-        accessKeyId: nconf.get(dbEnvConfig.aws_access_key_id),
-        secretAccessKey: nconf.get(dbEnvConfig.aws_secret_access_key)
-    }
-});
-
-const bucketName = nconf.get(dbEnvConfig.aws_bucket_name);
-
+const bucketName: string = config.aws.aws_bucket_name;
 // Set storage engine for multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
