@@ -81,7 +81,7 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
 export const updateProductById = async (req: Request, res: Response): Promise<void> => {
     try {
         const productDao = new ProductDao(ProductModel)
-        const product = await productDao.updateProductById(req.params.id, req.body);
+        const product = await productDao.updateProductById(req.params.id, JSON.parse(req.body.data));
         if (product) {
             res.status(200).json(product);
         } else {

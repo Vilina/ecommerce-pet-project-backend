@@ -6,15 +6,6 @@ import config from '../../config/index';
 import s3 from '../../libs/s3Client';
 
 const bucketName: string = config.aws.aws_bucket_name;
-// Set storage engine for multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
 
 // Function to check file type
 function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback) {
