@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import ProductDao from '../dao/ProductDao';
 import ProductModel from "../model/ProductModel";
+import config from "../../../config";
 
 /**
  * Creates a new product.
@@ -14,12 +15,12 @@ export const createProduct =  async (req: any, res: Response) => {
         if(req.files && req.files.length > 0) {
             // Assert the type of req.files to Express.Multer.File[]
             const files: Express.MulterS3.File[] = req.files;
-            const filePaths: string[] = files?.map(file => ( file.location )) || [];
+            const filePaths: string[] = files?.map(file => ( file.key )) || [];
             // Prepare product data including file paths
             const productObject = JSON.parse(req.body.data);
             const productData = {
                 ...productObject,
-                images: [...filePaths, ...productObject.image],
+                images: [...filePaths, ...productObject.images],
             };
             const product = await productDao.createProduct(productData);
             res.status(201).json(product);
@@ -43,6 +44,11 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
         const productDao = new ProductDao(ProductModel)
         const product = await productDao.findProductById(req.params.id);
         if (product) {
+            product.imageUrls = [];
+            product.images.map((image: any) => {
+                product.imageUrls?.push(`https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`);
+            });
+            console.log(product, 'product')
             res.status(200).json(product);
         } else {
             res.status(404).json({ message: 'Product not found' });

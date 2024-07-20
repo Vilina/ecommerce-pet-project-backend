@@ -38,7 +38,7 @@ const upload: RequestHandler = multer({
             cb(null, { fieldName: file.fieldname });
         },
         key: (req, file, cb) => {
-            cb(null, Date.now().toString() + path.extname(file.originalname));
+            cb(null, Date.now().toString() + '-' + file.originalname);
         }
     }),
     limits: { fileSize: 1000000 }, // Limit file size to 1MB per file
