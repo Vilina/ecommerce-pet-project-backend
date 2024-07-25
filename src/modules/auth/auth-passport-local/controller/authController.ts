@@ -1,8 +1,8 @@
 import {Request, Response, NextFunction} from "express";
-import UserModel, {IUser} from "../../users/model/UserModel";
-import passport from "../../../middleware/passport/strategies/local-strategy";
+import UserModel, {IUser} from "../../../users/model/UserModel";
+import passport from "../../../../middleware/passport/strategies/local-strategy";
 import bcrypt from "bcrypt";
-import UserDao from "../../users/dao/UserDao";
+import UserDao from "../../../users/dao/UserDao";
 
 // Type definition for the info object returned by passport
 interface AuthInfo {

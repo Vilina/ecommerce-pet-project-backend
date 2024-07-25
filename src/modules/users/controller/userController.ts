@@ -6,6 +6,7 @@ import UserModel from "../model/UserModel";
  * Controller for fetching all users.
  */
 export const getUsers = async (req: Request, res: Response) => {
+    console.log('aakkkkkkkkk')
     try {
         const userDao = new UserDao(UserModel)
         const users = await userDao.findAllUsers();
@@ -84,5 +85,22 @@ export const deleteUserById = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error deleting user:', error);
         res.status(500).json({ message: 'Internal server error deleteUserById' });
+    }
+};
+
+export const getUserByEmail = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email } = req.params;
+        const userDao = new UserDao(UserModel);
+        const user = await userDao.findUserByEmail(email);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };

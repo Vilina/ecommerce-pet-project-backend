@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import passport from '../../../middleware/passport/strategies/local-strategy';
+import passport from '../../../../middleware/passport/strategies/local-strategy';
 import * as AuthController from '../controller/authController';
-import { validateSchema } from "../../../validation-ajv/ajv";
-import loginSchema from "../validation/loginSchema";
-import registrationSchema from "../validation/registrationSchema";
+import { validateSchema } from "../../../../validation-ajv/ajv";
+import loginSchema from "../../shared/validation/loginSchema";
+import registrationSchema from "../../shared/validation/registrationSchema";
 
 // Create a new router instance
 const router = Router();

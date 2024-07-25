@@ -2,7 +2,8 @@ import express from 'express';
 import connectToDatabase from "./db_connection/db_connect"
 import MONGODB_URI from './db_connection/dbConnectUri'
 import userRouter from './modules/users/routes/users'
-import authRouter from './modules/auth/routes/auth'
+import authRouter from './modules/auth/auth-passport-local/routes/auth'
+import JWTAuthRouter from './modules/auth/auth-passport-jwt/routes/jwtAuth'
 import productRouter from './modules/products/routes/products'
 import session from 'express-session';
 import passport from 'passport'
@@ -40,6 +41,7 @@ app.use(setVisitedSession);
 
 app.use(userRouter);
 app.use(authRouter);
+app.use(JWTAuthRouter)
 app.use(productRouter);
 
 const PORT = process.env.PORT || 8000;
