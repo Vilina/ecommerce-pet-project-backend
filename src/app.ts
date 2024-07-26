@@ -9,6 +9,7 @@ import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
 import "./middleware/passport/strategies/local-strategy"
+import "./middleware/passport/jwtAuthenticated"
 import {setVisitedSession} from "./middleware/passport/authenticated";
 import MongoStore from "connect-mongo";
 const router = Router();

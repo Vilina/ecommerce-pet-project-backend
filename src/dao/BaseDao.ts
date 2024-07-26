@@ -69,14 +69,4 @@ export default class BaseDao<T extends Document> {
     async delete(id: string): Promise<T | null> {
         return this.model.findByIdAndDelete(id).exec();
     }
-
-
-    /**
-     * Finds a user by their email.
-     * @param {string} email - The email of the user to find.
-     * @returns {Promise<IUser | null>} A promise that resolves to the found user, or null if not found.
-     */
-    async findUserByEmail(email: string): Promise<T | null> {
-        return this.findOne({ email });
-    }
 }

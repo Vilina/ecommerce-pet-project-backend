@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import UserModel, { IUser } from '../../../users/model/UserModel';
+import UserModel from '../../../users/model/UserModel';
 import { blacklistToken, generateJWT } from '../../../../middleware/passport/strategies/jwt/jwt-utils';
 import jwt from 'jsonwebtoken';
-import * as AuthController from '../../../users/controller/userController';
-
-import TokenDao from "../../../../middleware/passport/strategies/jwt/dao/TokenDao";
-import TokenModel from "../../../../middleware/passport/strategies/jwt/model/TokenModel";
 import UserDao from "../../../users/dao/UserDao";
 
 export const register = async (req: Request, res: Response) => {
@@ -40,8 +36,9 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+        const userDao = new UserDao(UserModel);
+        const user = await userDao.findUserByEmail(email);
 
-        const user = await AuthController.getUserByEmail(email)
         if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
