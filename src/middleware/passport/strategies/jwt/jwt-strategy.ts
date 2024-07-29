@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
+import { Request, Response, NextFunction } from 'express';
 import { isTokenBlacklisted, verifyJWT } from './jwt-utils';
 
 /**

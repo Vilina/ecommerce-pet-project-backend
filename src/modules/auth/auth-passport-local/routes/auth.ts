@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import passport from '../../../../middleware/passport/strategies/local-strategy';
 import * as AuthController from '../controller/authController';
 import { validateSchema } from "../../../../validation-ajv/ajv";
 import loginSchema from "../../shared/validation/loginSchema";
@@ -9,7 +8,7 @@ import registrationSchema from "../../shared/validation/registrationSchema";
 const router = Router();
 
 /**
- * @route POST /register
+ * @route POST /authLocal/register
  * @desc Register a new user
  * @access Public
  *
@@ -28,7 +27,7 @@ router.post('/authLocal/register', validateSchema(registrationSchema), AuthContr
  * the login schema and then calls the authenticateLogin method from
  * AuthController to authenticate the user.
  */
-router.post('/authLocal/login', validateSchema(loginSchema), AuthController.authenticateLogin);
+router.post('/authLocal/login', validateSchema(loginSchema), AuthController.loginUser);
 
 /**
  * @route POST /authLocal/logout
@@ -41,7 +40,7 @@ router.post('/authLocal/login', validateSchema(loginSchema), AuthController.auth
 router.post('/authLocal/logout', AuthController.logoutUser);
 
 //ToDO
-router.post("/auth/google", passport.authenticate('local'), (request, response) => {
+router.post("/auth/google", (request, response) => {
     response.status(200).send('user google authentication route');
 });
 

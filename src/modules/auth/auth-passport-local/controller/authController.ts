@@ -1,32 +1,18 @@
-import {Request, Response, NextFunction} from "express";
-import UserModel, {IUser} from "../../../users/model/UserModel";
-import passport from "../../../../middleware/passport/strategies/local-strategy";
+import {NextFunction, Request, Response} from "express";
 import bcrypt from "bcrypt";
 import UserDao from "../../../users/dao/UserDao";
+import UserModel from "../../../users/model/UserModel";
+import {authenticateLocal} from "../../../../middleware/passport/strategies/local/local-strategy";
 
-// Type definition for the info object returned by passport
-interface AuthInfo {
-    message: string;
-}
 
-// Function to handle login authentication
-export const authenticateLogin = (req: any, res: Response, next: NextFunction): void => {
-    passport.authenticate('local', (err: Error | null, user: IUser | false, info: AuthInfo) => {
+export const loginUser = (req: any, res: Response, next: NextFunction): void => {
+    authenticateLocal(req, res, (err: any) => {
         if (err) {
             return next(err);
         }
-        if (!user) {
-            return res.status(401).json({ message: info.message });
-        }
-        req.logIn(user, (err:Error) => {
-            if (err) {
-                return next(err);
-            }
-            req.session.user = user;
-            return res.status(200).json({ message: 'Logged in successfully' });
-        });
-    })(req, res, next);
-}
+        res.status(200).json({ message: 'Logged in successfully', user: req.user });
+    });
+};
 
 export const registerUser = async (req: Request, res: Response) => {
     const {username, email, passwordHash: hashPassword, role, firstName, lastName, address, phone} = req.body;
@@ -52,12 +38,22 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 }
 
-export const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
-    req.logout(err => {
+
+/**
+ * Logout controller to handle user logout.
+ *
+ * This controller destroys the user session and responds with a success message.
+ *
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object to send the response.
+ * @param {NextFunction} next - The next middleware function in the Express stack.
+ */
+export const logoutUser = (req: Request, res: Response, next: NextFunction) => {
+    req.logout((err: any) => {
         if (err) {
             return next(err);
         }
-        res.status(200).send('Logged out successfully');
+        res.status(200).json({ message: 'Logged out successfully' });
     });
-}
+};
 

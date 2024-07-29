@@ -8,14 +8,15 @@ import productRouter from './modules/products/routes/products'
 import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
-import "./middleware/passport/strategies/local-strategy"
-import "./middleware/passport/jwtAuthenticated"
-import {setVisitedSession} from "./middleware/passport/authenticated";
 import MongoStore from "connect-mongo";
-const router = Router();
-
+import {setVisitedSession} from "./middleware/passport/strategies/local/local-guards";
+//required to import strategies
+import "./middleware/passport/jwtAuthenticated"
+import "./middleware/passport/localAuthenticated"
 
 const app = express();
+const router = Router();
+
 app.use(router)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
