@@ -40,9 +40,9 @@ app.use(passport.session());
 app.use(setVisitedSession);
 
 
-app.use(userRouter);
 app.use(authRouter);
 app.use(JWTAuthRouter)
+app.use(userRouter);
 app.use(productRouter);
 
 const PORT = process.env.PORT || 8000;
