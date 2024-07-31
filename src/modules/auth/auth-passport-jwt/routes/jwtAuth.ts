@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import * as JWTAuthController from '../controller/jwtAuthController';
-import { validateSchema } from "../../../../validation-ajv/ajv";
-import registrationSchema from "../../shared/validation/registrationSchema";
-import loginSchema from "../../shared/validation/loginSchema";
+import { validateSchema } from '../../../../validation-ajv/ajv';
+import registrationSchema from '../../shared/validation/registrationSchema';
+import loginSchema from '../../shared/validation/loginSchema';
 
 // Create a new Router instance
 const router = Router();
@@ -16,7 +16,11 @@ const router = Router();
  * @route POST /authJWT/register
  * @access Public
  */
-router.post('/authJWT/register', validateSchema(registrationSchema), JWTAuthController.register);
+router.post(
+  '/authJWT/register',
+  validateSchema(registrationSchema),
+  JWTAuthController.register,
+);
 
 /**
  * Route to log in an existing user.
@@ -27,7 +31,11 @@ router.post('/authJWT/register', validateSchema(registrationSchema), JWTAuthCont
  * @route POST /authJWT/login
  * @access Public
  */
-router.post('/authJWT/login', validateSchema(loginSchema), JWTAuthController.login);
+router.post(
+  '/authJWT/login',
+  validateSchema(loginSchema),
+  JWTAuthController.login,
+);
 
 /**
  * Route to log out the current user.

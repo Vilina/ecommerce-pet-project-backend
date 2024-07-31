@@ -1,9 +1,9 @@
 import { Response, NextFunction } from 'express';
 import passport from 'passport';
-import {IUser} from "../../../../modules/users/model/UserModel";
+import { IUser } from '../../../../modules/users/model/UserModel';
 
 interface AuthInfo {
-    message: string;
+  message: string;
 }
 
 /**
@@ -18,28 +18,37 @@ interface AuthInfo {
  * @param {Response} res - The Express response object.
  * @param {NextFunction} next - The next middleware function in the Express stack.
  */
-export const authenticateLocal = (req: any, res: Response, next: NextFunction) => {
-    if (req.isAuthenticated()) {
-        // If the user is already authenticated, allow the request to proceed
-        return next();
-    }
+export const authenticateLocal = (
+  req: any,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (req.isAuthenticated()) {
+    // If the user is already authenticated, allow the request to proceed
+    return next();
+  }
 
-    // If not authenticated, proceed with local authentication
-    passport.authenticate('local', (err: Error | null, user: IUser | false, info: AuthInfo) => {
+  // If not authenticated, proceed with local authentication
+  passport.authenticate(
+    'local',
+    (err: Error | null, user: IUser | false, info: AuthInfo) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res
+          .status(401)
+          .json({ message: info?.message || 'Authentication failed' });
+      }
+
+      req.logIn(user, (err: any) => {
         if (err) {
-            return next(err);
+          return next(err);
         }
-        if (!user) {
-            return res.status(401).json({ message: info?.message || 'Authentication failed' });
-        }
-
-        req.logIn(user, (err: any) => {
-            if (err) {
-                return next(err);
-            }
-            req.user = user;
-            req.session.user = user;
-            res.status(200).json({ message: 'Logged in successfully', user });
-        });
-    })(req, res, next);
+        req.user = user;
+        req.session.user = user;
+        res.status(200).json({ message: 'Logged in successfully', user });
+      });
+    },
+  )(req, res, next);
 };

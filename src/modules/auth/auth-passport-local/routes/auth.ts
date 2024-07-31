@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import * as AuthController from '../controller/authController';
-import { validateSchema } from "../../../../validation-ajv/ajv";
-import loginSchema from "../../shared/validation/loginSchema";
-import registrationSchema from "../../shared/validation/registrationSchema";
+import { validateSchema } from '../../../../validation-ajv/ajv';
+import loginSchema from '../../shared/validation/loginSchema';
+import registrationSchema from '../../shared/validation/registrationSchema';
 
 // Create a new router instance
 const router = Router();
@@ -16,7 +16,11 @@ const router = Router();
  * against the registration schema and then calls the registerUser
  * method from AuthController to create a new user.
  */
-router.post('/authLocal/register', validateSchema(registrationSchema), AuthController.registerUser);
+router.post(
+  '/authLocal/register',
+  validateSchema(registrationSchema),
+  AuthController.registerUser,
+);
 
 /**
  * @route POST /authLocal/login
@@ -27,7 +31,11 @@ router.post('/authLocal/register', validateSchema(registrationSchema), AuthContr
  * the login schema and then calls the authenticateLogin method from
  * AuthController to authenticate the user.
  */
-router.post('/authLocal/login', validateSchema(loginSchema), AuthController.loginUser);
+router.post(
+  '/authLocal/login',
+  validateSchema(loginSchema),
+  AuthController.loginUser,
+);
 
 /**
  * @route POST /authLocal/logout
@@ -40,9 +48,8 @@ router.post('/authLocal/login', validateSchema(loginSchema), AuthController.logi
 router.post('/authLocal/logout', AuthController.logoutUser);
 
 //ToDO
-router.post("/auth/google", (request, response) => {
-    response.status(200).send('user google authentication route');
+router.post('/auth/google', (request, response) => {
+  response.status(200).send('user google authentication route');
 });
-
 
 export default router;

@@ -1,8 +1,7 @@
 import express from 'express';
 import * as ProductController from '../controller/productController';
-import imageUpload  from "../../../middleware/image-upload/multer";
-import {authenticateJwt} from "../../../middleware/passport/strategies/jwt/jwt-strategy";
-
+import imageUpload from '../../../middleware/image-upload/multer';
+import { authenticateJwt } from '../../../middleware/passport/strategies/jwt/jwt-strategy';
 
 const router = express.Router();
 

@@ -1,7 +1,11 @@
 import passport from 'passport';
-import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
-import UserModel from "../../modules/users/model/UserModel";
-import UserDao from "../../modules/users/dao/UserDao";
+import {
+  Strategy as JwtStrategy,
+  ExtractJwt,
+  StrategyOptions,
+} from 'passport-jwt';
+import UserModel from '../../modules/users/model/UserModel';
+import UserDao from '../../modules/users/dao/UserDao';
 
 /**
  * Define the options for the JWT strategy.
@@ -12,8 +16,8 @@ import UserDao from "../../modules/users/dao/UserDao";
  *   used during the JWT creation to ensure proper verification.
  */
 const opts: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'jwt-secret-key',
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: 'jwt-secret-key',
 };
 
 /**
@@ -31,20 +35,20 @@ const opts: StrategyOptions = {
  * respectively.
  */
 passport.use(
-    new JwtStrategy(opts, async (jwt_payload, done) => {
-        try {
-            const userDao = new UserDao(UserModel);
-            const user = await userDao.findUserById(jwt_payload.userId); // Find the user by ID from the JWT payload
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const userDao = new UserDao(UserModel);
+      const user = await userDao.findUserById(jwt_payload.userId); // Find the user by ID from the JWT payload
 
-            if (user) {
-                return done(null, user); // If user is found, pass user object to the done callback
-            } else {
-                return done(null, false); // If user is not found, pass false to the done callback
-            }
-        } catch (err) {
-            return done(err, false); // If an error occurs, pass the error and false to the done callback
-        }
-    })
+      if (user) {
+        return done(null, user); // If user is found, pass user object to the done callback
+      } else {
+        return done(null, false); // If user is not found, pass false to the done callback
+      }
+    } catch (err) {
+      return done(err, false); // If an error occurs, pass the error and false to the done callback
+    }
+  }),
 );
 
 export default passport;
