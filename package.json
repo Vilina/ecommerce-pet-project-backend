@@ -13,7 +13,8 @@
     "postinstall": "tsc && npm run copy-config",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
-    "format": "prettier --write 'src/**/*.{js,ts}'"
+    "format": "prettier --write 'src/**/*.{js,ts}'",
+    "prepare": "husky install"
   },
   "author": "",
   "dependencies": {
@@ -48,6 +49,8 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.7",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
@@ -57,5 +60,11 @@
     "mongoose": {
       "mongodb": "^6.8.0"
     }
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
