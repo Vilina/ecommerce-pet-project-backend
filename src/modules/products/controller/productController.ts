@@ -9,6 +9,8 @@ import ProductModel from '../model/ProductModel';
  */
 
 export const createProduct = async (req: any, res: Response) => {
+
+
   try {
     const productDao = new ProductDao(ProductModel);
     if (req.files && req.files.length > 0) {
