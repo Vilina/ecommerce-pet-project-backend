@@ -11,8 +11,8 @@ import Router from "express";
 import MongoStore from "connect-mongo";
 import {setVisitedSession} from "./middleware/passport/strategies/local/local-guards";
 //required to import strategies
-import "./middleware/passport/jwtAuthenticated"
-import "./middleware/passport/localAuthenticated"
+import "./middleware/passport/jwtPassportConfig"
+import "./middleware/passport/localPassportConfig"
 
 const app = express();
 const router = Router();
