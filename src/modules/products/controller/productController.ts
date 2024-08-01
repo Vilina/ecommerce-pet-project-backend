@@ -45,10 +45,9 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
         const product = await productDao.findProductById(req.params.id);
         if (product) {
             product.imageUrls = [];
-            product.images.map((image: any) => {
+            product.images.map((image: string) => {
                 product.imageUrls?.push(`https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`);
             });
-            console.log(product, 'product')
             res.status(200).json(product);
         } else {
             res.status(404).json({ message: 'Product not found' });
