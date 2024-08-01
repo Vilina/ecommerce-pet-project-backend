@@ -5,8 +5,6 @@ import multerS3 from 'multer-s3';
 import config from '../../config/index';
 import s3 from '../../libs/s3Client';
 
-const bucketName: string = config.aws.aws_bucket_name;
-
 // Function to check file type
 function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback) {
     const filetypes = /jpeg|jpg|png|gif/;
@@ -24,7 +22,7 @@ function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback)
 const upload: RequestHandler = multer({
     storage: multerS3({
         s3: s3,
-        bucket: bucketName,
+        bucket: config.aws.aws_bucket_name,
         metadata: (req, file, cb) => {
             cb(null, { fieldName: file.fieldname });
         },

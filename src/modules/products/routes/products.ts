@@ -1,7 +1,8 @@
 import express from 'express';
 import * as ProductController from '../controller/productController';
-import imageUpload  from "../../../middleware/image-upload/multer";
-import imageUpdateDelete from "../../../middleware/image-update-delete/imageUpdateDelete";
+import imageDelete from "../../../middleware/images/deleteS3";
+import imageUpdate from "../../../middleware/images/updateS3";
+import imageUpload from "../../../middleware/images/uploadS3";
 
 const router = express.Router();
 
@@ -15,9 +16,9 @@ router.get('/products/:id', ProductController.getProductById);
 router.get('/products', ProductController.getAllProducts);
 
 // PUT /products/:id - Update a product by its ID
-router.put('/products/:id',imageUpdateDelete, ProductController.updateProductById);
+router.put('/products/:id',imageUpdate, ProductController.updateProductById);
 
 // DELETE /products/:id - Delete a product by its ID
-router.delete('/products/:id', imageUpdateDelete, ProductController.deleteProductById);
+router.delete('/products/:id', imageDelete, ProductController.deleteProductById);
 
 export default router;
