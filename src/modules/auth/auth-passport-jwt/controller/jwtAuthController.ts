@@ -4,6 +4,7 @@ import UserModel from '../../../users/model/UserModel';
 import { blacklistToken, generateJWT } from '../../../../middleware/passport/strategies/jwt/jwt-utils';
 import jwt from 'jsonwebtoken';
 import UserDao from "../../../users/dao/UserDao";
+import { ObjectId } from 'mongodb';
 
 /**
  * Register a new user.
@@ -41,7 +42,8 @@ export const register = async (req: Request, res: Response) => {
         const expiryDate = new Date(Date.now() + 3600 * 1000); // 1 hour
 
         // Blacklist the token (optional step depending on your use case)
-        await blacklistToken(token, expiryDate);
+
+        await blacklistToken(token, expiryDate, userData._id as ObjectId);
 
         if (userData) {
             res.status(201).json({ token });
@@ -96,13 +98,13 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
-
         if (token) {
             // Decode the token to get its expiry date
-            const expiryDate = new Date((jwt.decode(token) as any).exp * 1000);
-
+            const decoded = jwt.decode(token) as any;
+            const expiryDate = new Date(decoded.exp * 1000);
+            const userId = decoded.userId
             // Blacklist the token
-            await blacklistToken(token, expiryDate);
+            await blacklistToken(token, expiryDate, userId);
 
             res.json({ message: 'Logged out successfully' });
         } else {

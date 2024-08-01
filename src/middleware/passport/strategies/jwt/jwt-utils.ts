@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import TokenDao from "./dao/TokenDao";
 import TokenModel from "./model/TokenModel";
 import { IUser } from "../../../../modules/users/model/UserModel";
+import { ObjectId } from 'mongodb';
 
 // Initialize the TokenDao with the TokenModel
 const tokenDao = new TokenDao(TokenModel);
@@ -47,10 +48,11 @@ export const verifyJWT = (token: string): jwt.JwtPayload | string => {
  *
  * @param {string} token - The JWT token to blacklist.
  * @param {Date} expiryDate - The expiry date of the token.
+ * @param {ObjectId} userId - The expiry date of the token.
  * @returns {Promise<void>} - A promise that resolves when the token is blacklisted.
  */
-export const blacklistToken = async (token: string, expiryDate: Date): Promise<void> => {
-    await tokenDao.blacklistToken(token, expiryDate);
+export const blacklistToken = async (token: string, expiryDate: Date, userId: ObjectId): Promise<void> => {
+    await tokenDao.blacklistToken(token, expiryDate, userId);
 };
 
 /**
