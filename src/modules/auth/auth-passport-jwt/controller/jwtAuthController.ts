@@ -4,14 +4,13 @@ import UserModel from '../../../users/model/UserModel';
 import { blacklistToken, generateJWT } from '../../../../middleware/passport/strategies/jwt/jwt-utils';
 import jwt from 'jsonwebtoken';
 import UserDao from "../../../users/dao/UserDao";
-import { ObjectId } from 'mongodb';
 
 /**
  * Register a new user.
  *
  * This function handles user registration. It hashes the user's password,
  * saves the user to the database, generates a JWT token for the user,
- * blacklists the token, and returns the token in the response.
+ * returns the token in the response.
  *
  * @param {Request} req - The Express request object.
  * @param {Response} res - The Express response object.
@@ -39,11 +38,6 @@ export const register = async (req: Request, res: Response) => {
 
         // Generate a JWT token for the newly created user
         const token = generateJWT(userData);
-        const expiryDate = new Date(Date.now() + 3600 * 1000); // 1 hour
-
-        // Blacklist the token (optional step depending on your use case)
-
-        await blacklistToken(token, expiryDate, userData._id as ObjectId);
 
         if (userData) {
             res.status(201).json({ token });
