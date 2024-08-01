@@ -3,12 +3,8 @@ import config from '../config/index';
 
 const connectToDatabase = async () => {
 
-
-    // Construct connection URL
-    const MONGODB_URI: string = `${config.mongo_connection_string}://${config.root_username}:${config.root_password}@${config.mongo_host_port}/`
-
     try {
-        let mongooseConnect  =  await mongoose.connect(MONGODB_URI, config.options);
+        let mongooseConnect  =  await mongoose.connect(config.mongodb_uri, config.options);
         console.log('Mongo connected');
         // Enable Mongoose debug mode if configured
         if (config.debug) {

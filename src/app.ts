@@ -1,6 +1,5 @@
 import express from 'express';
 import connectToDatabase from "./db_connection/db_connect"
-import MONGODB_URI from './db_connection/dbConnectUri'
 import userRouter from './modules/users/routes/users'
 import authRouter from './modules/auth/routes/auth'
 import productRouter from './modules/products/routes/products'
@@ -10,6 +9,7 @@ import Router from "express";
 import "./middleware/passport/strategies/local-strategy"
 import {setVisitedSession} from "./middleware/passport/authenticated";
 import MongoStore from "connect-mongo";
+import config from "./config";
 const router = Router();
 
 
@@ -27,7 +27,7 @@ app.use(session({
     cookie: {
         maxAge: 6000 * 60
     },
-    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
+    store: MongoStore.create({ mongoUrl: config.mongodb_uri }),
 }));
 
 

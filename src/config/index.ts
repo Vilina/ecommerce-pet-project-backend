@@ -30,5 +30,6 @@ const config = {
         aws_region: nconf.get(dbEnvConfig.aws.aws_region),
         aws_bucket_name: nconf.get(dbEnvConfig.aws.aws_bucket_name),
     },
+    mongodb_uri: `${nconf.get(dbEnvConfig.mongo_connection_string)}://${nconf.get(dbEnvConfig.root_username)}:${nconf.get(dbEnvConfig.root_password)}@${nconf.get(dbEnvConfig.mongo_host_port)}/`
 };
 export default config;
