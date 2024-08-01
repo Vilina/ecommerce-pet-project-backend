@@ -28,7 +28,6 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
         if (!user) {
             return res.status(404).json({ message: 'User not found getUserById' });
         }
-        // req.user = user; // Attach user object to the request
         next();
     } catch (error) {
         console.error('Error fetching user by ID:', error);
