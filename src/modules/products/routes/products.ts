@@ -1,6 +1,7 @@
 import express from 'express';
 import * as ProductController from '../controller/productController';
 import imageUpload  from "../../../middleware/image-upload/multer";
+import {authenticateJwt} from "../../../middleware/passport/strategies/jwt/jwt-strategy";
 
 
 const router = express.Router();
@@ -12,7 +13,7 @@ router.post('/products', imageUpload, ProductController.createProduct);
 router.get('/products/:id', ProductController.getProductById);
 
 // GET /products - Retrieve all products
-router.get('/products', ProductController.getAllProducts);
+router.get('/products', authenticateJwt, ProductController.getAllProducts);
 
 // PUT /products/:id - Update a product by its ID
 router.put('/products/:id', ProductController.updateProductById);

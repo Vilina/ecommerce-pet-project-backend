@@ -1,11 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { IUser } from '../../modules/users/model/UserModel';
+import {NextFunction, Request, Response} from "express";
+import {IUser} from "../../../../modules/users/model/UserModel";
 
-/**
- * Middleware function to authorize access based on user roles.
- * @param roles - List of roles that are allowed to access the route.
- * @returns Express middleware function.
- */
 export const authorizeRoles = (...roles: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
         // Check if user is authenticated and has one of the specified roles
@@ -19,17 +14,6 @@ export const authorizeRoles = (...roles: string[]) => {
     };
 };
 
-export const authorizeUser = () => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        if (!req.isAuthenticated()) {
-            // Return 403 Forbidden if user is not authenticated
-            return res.status(403).send('Access denied');
-        }
-
-        // Call next middleware if user is authenticated and has required role
-        next();
-    };
-};
 
 /**
  * Middleware to set a 'visited' flag in the user's session.
