@@ -3,6 +3,8 @@ import * as ProductController from '../controller/productController';
 import imageDelete from "../../../middleware/images/deleteS3";
 import imageUpdate from "../../../middleware/images/updateS3";
 import imageUpload from "../../../middleware/images/uploadS3";
+import {authenticateJwt} from "../../../middleware/passport/strategies/jwt/jwt-strategy";
+
 
 const router = express.Router();
 
@@ -13,7 +15,7 @@ router.post('/products', imageUpload, ProductController.createProduct);
 router.get('/products/:id', ProductController.getProductById);
 
 // GET /products - Retrieve all products
-router.get('/products', ProductController.getAllProducts);
+router.get('/products', authenticateJwt, ProductController.getAllProducts);
 
 // PUT /products/:id - Update a product by its ID
 router.put('/products/:id',imageUpdate, ProductController.updateProductById);

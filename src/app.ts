@@ -1,19 +1,25 @@
 import express from 'express';
 import connectToDatabase from "./db_connection/db_connect"
 import userRouter from './modules/users/routes/users'
-import authRouter from './modules/auth/routes/auth'
+import authRouter from './modules/auth/auth-passport-local/routes/auth'
+import JWTAuthRouter from './modules/auth/auth-passport-jwt/routes/jwtAuth'
 import productRouter from './modules/products/routes/products'
 import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
 import "./middleware/passport/strategies/local-strategy"
-import {setVisitedSession} from "./middleware/passport/authenticated";
 import MongoStore from "connect-mongo";
 import config from "./config";
-const router = Router();
 
+
+import {setVisitedSession} from "./middleware/passport/strategies/local/local-guards";
+//required to import strategies
+import "./middleware/passport/jwtPassportConfig"
+import "./middleware/passport/localPassportConfig"
 
 const app = express();
+const router = Router();
+
 app.use(router)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,8 +44,9 @@ app.use(passport.session());
 app.use(setVisitedSession);
 
 
-app.use(userRouter);
 app.use(authRouter);
+app.use(JWTAuthRouter)
+app.use(userRouter);
 app.use(productRouter);
 
 const PORT = process.env.PORT || 8000;

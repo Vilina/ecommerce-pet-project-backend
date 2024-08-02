@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import passport from '../../../middleware/passport/strategies/local-strategy';
 import * as AuthController from '../controller/authController';
-import { validateSchema } from "../../../validation-ajv/ajv";
-import loginSchema from "../validation/loginSchema";
-import registrationSchema from "../validation/registrationSchema";
+import { validateSchema } from "../../../../validation-ajv/ajv";
+import loginSchema from "../../shared/validation/loginSchema";
+import registrationSchema from "../../shared/validation/registrationSchema";
 
 // Create a new router instance
 const router = Router();
 
 /**
- * @route POST /register
+ * @route POST /authLocal/register
  * @desc Register a new user
  * @access Public
  *
@@ -17,10 +16,10 @@ const router = Router();
  * against the registration schema and then calls the registerUser
  * method from AuthController to create a new user.
  */
-router.post('/register', validateSchema(registrationSchema), AuthController.registerUser);
+router.post('/authLocal/register', validateSchema(registrationSchema), AuthController.registerUser);
 
 /**
- * @route POST /login
+ * @route POST /authLocal/login
  * @desc Authenticate user and login
  * @access Public
  *
@@ -28,20 +27,20 @@ router.post('/register', validateSchema(registrationSchema), AuthController.regi
  * the login schema and then calls the authenticateLogin method from
  * AuthController to authenticate the user.
  */
-router.post('/login', validateSchema(loginSchema), AuthController.authenticateLogin);
+router.post('/authLocal/login', validateSchema(loginSchema), AuthController.loginUser);
 
 /**
- * @route POST /logout
+ * @route POST /authLocal/logout
  * @desc Logout user
  * @access Public
  *
  * This route handles user logout. It calls the logoutUser method from
  * AuthController to log the user out.
  */
-router.post('/logout', AuthController.logoutUser);
+router.post('/authLocal/logout', AuthController.logoutUser);
 
 //ToDO
-router.post("/auth/google", passport.authenticate('local'), (request, response) => {
+router.post("/auth/google", (request, response) => {
     response.status(200).send('user google authentication route');
 });
 

@@ -68,4 +68,15 @@ export default class UserDao extends BaseDao<IUser> {
     async deleteUserById(id: string): Promise<IUser | null> {
         return this.delete(id);
     }
+
+
+    /**
+     * Finds a user by their email.
+     * @param {string} email - The email of the user to find.
+     * @returns {Promise<IUser | null>} A promise that resolves to the found user, or null if not found.
+     */
+    async findUserByEmail(email: string): Promise<IUser | null> {
+        return this.findOne({ email });
+    }
+
 }
