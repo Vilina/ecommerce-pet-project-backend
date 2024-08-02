@@ -23,6 +23,8 @@ const config = {
     mongo_connection_string: nconf.get(dbEnvConfig.mongo_connection_string),
     use_env_variable: dbEnvConfig.use_env_variable,
     options: dbEnvConfig.options,
+    session_secret_key: dbEnvConfig.session_secret_key,
+    jwt_secret_key: dbEnvConfig.jwt_secret_key,
     debug: dbEnvConfig.debug,
     aws: {
         aws_access_key_id: nconf.get(dbEnvConfig.aws.aws_access_key_id),

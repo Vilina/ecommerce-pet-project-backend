@@ -3,6 +3,7 @@ import TokenDao from "./dao/TokenDao";
 import TokenModel from "./model/TokenModel";
 import { IUser } from "../../../../modules/users/model/UserModel";
 import { ObjectId } from 'mongodb';
+import config from '../../../../config';
 
 // Initialize the TokenDao with the TokenModel
 const tokenDao = new TokenDao(TokenModel);
@@ -23,7 +24,7 @@ export const generateJWT = (user: IUser): string => {
         username: user.username,
     };
 
-    return jwt.sign(payload, 'jwt-secret-key', { expiresIn: '1h' });
+    return jwt.sign(payload, config.jwt_secret_key, { expiresIn: '1h' });
 };
 
 /**
@@ -37,7 +38,7 @@ export const generateJWT = (user: IUser): string => {
  * @returns {jwt.JwtPayload | string} - The decoded JWT payload if valid, otherwise an error is thrown.
  */
 export const verifyJWT = (token: string): jwt.JwtPayload | string => {
-    return jwt.verify(token, 'jwt-secret-key');
+    return jwt.verify(token, config.jwt_secret_key);
 };
 
 /**
