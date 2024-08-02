@@ -15,6 +15,7 @@ import { isTokenBlacklisted, verifyJWT } from './jwt-utils';
  * @param {Response} res - The Express response object.
  * @param {NextFunction} next - The next middleware function in the Express stack.
  */
+
 export const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('jwt', { session: false }, async (err: any, user: any) => {
         // Extract the token from the Authorization header

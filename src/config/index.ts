@@ -20,9 +20,11 @@ const config = {
     me_basic_auth_username: nconf.get(dbEnvConfig.me_basic_auth_username),
     me_basic_auth_password: nconf.get(dbEnvConfig.me_basic_auth_password),
     mongo_host_port: nconf.get(dbEnvConfig.mongo_host_port),
-    mongo_connection_string: nconf.get(dbEnvConfig.mongo_connection_string),
+    mongo_connection_string: nconf.get(dbEnvConfig.mongo_connection_string) ,
     use_env_variable: dbEnvConfig.use_env_variable,
     options: dbEnvConfig.options,
+    session_secret_key: dbEnvConfig.session_secret,
+    jwt_secret_key: dbEnvConfig.jwt_secret,
     debug: dbEnvConfig.debug,
     aws: {
         aws_access_key_id: nconf.get(dbEnvConfig.aws.aws_access_key_id),

@@ -7,7 +7,6 @@ import productRouter from './modules/products/routes/products'
 import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
-import "./middleware/passport/strategies/local-strategy"
 import MongoStore from "connect-mongo";
 import config from "./config";
 
@@ -27,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(session({
-    secret: 'secretsessiondev',
+    secret: config.session_secret_key,
     saveUninitialized: true,
     resave: true,
     cookie: {
