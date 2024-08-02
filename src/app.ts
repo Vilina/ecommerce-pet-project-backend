@@ -1,6 +1,5 @@
 import express from 'express';
 import connectToDatabase from "./db_connection/db_connect"
-import MONGODB_URI from './db_connection/dbConnectUri'
 import userRouter from './modules/users/routes/users'
 import authRouter from './modules/auth/auth-passport-local/routes/auth'
 import JWTAuthRouter from './modules/auth/auth-passport-jwt/routes/jwtAuth'
@@ -8,7 +7,11 @@ import productRouter from './modules/products/routes/products'
 import session from 'express-session';
 import passport from 'passport'
 import Router from "express";
+import "./middleware/passport/strategies/local-strategy"
 import MongoStore from "connect-mongo";
+import config from "./config";
+
+
 import {setVisitedSession} from "./middleware/passport/strategies/local/local-guards";
 //required to import strategies
 import "./middleware/passport/jwtPassportConfig"
@@ -30,7 +33,7 @@ app.use(session({
     cookie: {
         maxAge: 6000 * 60
     },
-    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
+    store: MongoStore.create({ mongoUrl: config.mongodb_uri }),
 }));
 
 

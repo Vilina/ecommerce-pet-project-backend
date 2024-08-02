@@ -1,17 +1,9 @@
 import multer from "multer"
 import path from 'path';
 import { RequestHandler} from 'express';
-
-
-// Set storage engine for multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
+import multerS3 from 'multer-s3';
+import config from '../../config/index';
+import s3 from '../../libs/s3Client';
 
 // Function to check file type
 function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback) {
@@ -26,14 +18,22 @@ function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback)
     }
 }
 
-// Initialize multer middleware for file upload
+// Initialize multer and multerS3 for storage middleware for file upload
 const upload: RequestHandler = multer({
-    storage: storage,
+    storage: multerS3({
+        s3: s3,
+        bucket: config.aws.aws_bucket_name,
+        metadata: (req, file, cb) => {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: (req, file, cb) => {
+            cb(null, Date.now().toString() + '-' + file.originalname);
+        }
+    }),
     limits: { fileSize: 1000000 }, // Limit file size to 1MB per file
     fileFilter: (req, file, cb) => {
         checkFileType(file, cb); // Apply file type validation
     }
-}).array('files', 5); // Allow up to 5 images per request
-
+}).array('files', 5);
 
 export default upload;
