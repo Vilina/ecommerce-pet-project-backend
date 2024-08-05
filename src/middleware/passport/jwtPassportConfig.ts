@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import UserModel from "../../modules/users/model/UserModel";
 import UserDao from "../../modules/users/dao/UserDao";
+import config from '../../config';
 
 /**
  * Define the options for the JWT strategy.
@@ -13,7 +14,7 @@ import UserDao from "../../modules/users/dao/UserDao";
  */
 const opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'jwt-secret-key',
+    secretOrKey: config.jwt_secret_key,
 };
 
 /**
