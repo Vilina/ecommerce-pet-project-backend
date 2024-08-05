@@ -14,7 +14,7 @@ logs
 # Local env files
 .env
 .env.*
-!.env.development
+!.env.example
 
 # Build files
 dist
