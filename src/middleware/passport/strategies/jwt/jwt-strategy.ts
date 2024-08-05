@@ -16,32 +16,44 @@ import { isTokenBlacklisted, verifyJWT } from './jwt-utils';
  * @param {NextFunction} next - The next middleware function in the Express stack.
  */
 
-export const authenticateJwt = (req: Request, res: Response, next: NextFunction) => {
-    passport.authenticate('jwt', { session: false }, async (err: any, user: any) => {
-        // Extract the token from the Authorization header
-        const token = req.headers.authorization?.split(' ')[1] || '';
+export const authenticateJwt = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    async (err: any, user: any) => {
+      // Extract the token from the Authorization header
+      const token = req.headers.authorization?.split(' ')[1] || '';
 
-        // If there is an error, no user, or no token, return a 401 Unauthorized response
-        if (err || !user || !token) {
-            return res.status(401).json({ message: 'Unauthorized user or missing token' });
+      // If there is an error, no user, or no token, return a 401 Unauthorized response
+      if (err || !user || !token) {
+        return res
+          .status(401)
+          .json({ message: 'Unauthorized user or missing token' });
+      }
+
+      try {
+        // Verify the JWT token
+        verifyJWT(token);
+
+        // Check if the token is blacklisted
+        const isBlacklisted = await isTokenBlacklisted(token);
+        if (isBlacklisted) {
+          return res
+            .status(401)
+            .json({ message: 'Unauthorized: Token is blacklisted' });
         }
 
-        try {
-            // Verify the JWT token
-            verifyJWT(token);
-
-            // Check if the token is blacklisted
-            const isBlacklisted = await isTokenBlacklisted(token);
-            if (isBlacklisted) {
-                return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
-            }
-
-            // Attach the user to the request object
-            req.user = user;
-            next();
-        } catch (error) {
-            // If an error occurs during verification or blacklist check, return a 401 Unauthorized response
-            return res.status(401).json({ message: 'Unauthorized', error });
-        }
-    })(req, res, next);
+        // Attach the user to the request object
+        req.user = user;
+        next();
+      } catch (error) {
+        // If an error occurs during verification or blacklist check, return a 401 Unauthorized response
+        return res.status(401).json({ message: 'Unauthorized', error });
+      }
+    },
+  )(req, res, next);
 };

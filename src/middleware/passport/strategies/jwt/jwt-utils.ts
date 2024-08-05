@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import TokenDao from "./dao/TokenDao";
-import TokenModel from "./model/TokenModel";
-import { IUser } from "../../../../modules/users/model/UserModel";
+import TokenDao from './dao/TokenDao';
+import TokenModel from './model/TokenModel';
+import { IUser } from '../../../../modules/users/model/UserModel';
 import { ObjectId } from 'mongodb';
 import config from '../../../../config';
 
@@ -19,12 +19,12 @@ const tokenDao = new TokenDao(TokenModel);
  * @returns {string} - The generated JWT token.
  */
 export const generateJWT = (user: IUser): string => {
-    const payload = {
-        userId: user._id,
-        username: user.username,
-    };
+  const payload = {
+    userId: user._id,
+    username: user.username,
+  };
 
-    return jwt.sign(payload, config.jwt_secret_key, { expiresIn: '1h' });
+  return jwt.sign(payload, config.jwt_secret_key, { expiresIn: '1h' });
 };
 
 /**
@@ -38,7 +38,7 @@ export const generateJWT = (user: IUser): string => {
  * @returns {jwt.JwtPayload | string} - The decoded JWT payload if valid, otherwise an error is thrown.
  */
 export const verifyJWT = (token: string): jwt.JwtPayload | string => {
-    return jwt.verify(token, config.jwt_secret_key);
+  return jwt.verify(token, config.jwt_secret_key);
 };
 
 /**
@@ -52,8 +52,12 @@ export const verifyJWT = (token: string): jwt.JwtPayload | string => {
  * @param {ObjectId} userId - The expiry date of the token.
  * @returns {Promise<void>} - A promise that resolves when the token is blacklisted.
  */
-export const blacklistToken = async (token: string, expiryDate: Date, userId: ObjectId): Promise<void> => {
-    await tokenDao.blacklistToken(token, expiryDate, userId);
+export const blacklistToken = async (
+  token: string,
+  expiryDate: Date,
+  userId: ObjectId,
+): Promise<void> => {
+  await tokenDao.blacklistToken(token, expiryDate, userId);
 };
 
 /**
@@ -66,5 +70,5 @@ export const blacklistToken = async (token: string, expiryDate: Date, userId: Ob
  * @returns {Promise<boolean>} - A promise that resolves to true if the token is blacklisted, otherwise false.
  */
 export const isTokenBlacklisted = async (token: string): Promise<boolean> => {
-    return tokenDao.isTokenBlacklisted(token);
+  return tokenDao.isTokenBlacklisted(token);
 };
