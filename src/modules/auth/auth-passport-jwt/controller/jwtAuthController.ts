@@ -13,7 +13,7 @@ import UserDao from '../../../users/dao/UserDao';
  *
  * This function handles user registration. It hashes the user's password,
  * saves the user to the database, generates a JWT token for the user,
- * blacklists the token, and returns the token in the response.
+ * returns the token in the response.
  *
  * @param {Request} req - The Express request object.
  * @param {Response} res - The Express response object.
@@ -50,10 +50,6 @@ export const register = async (req: Request, res: Response) => {
 
     // Generate a JWT token for the newly created user
     const token = generateJWT(userData);
-    const expiryDate = new Date(Date.now() + 3600 * 1000); // 1 hour
-
-    // Blacklist the token (optional step depending on your use case)
-    await blacklistToken(token, expiryDate);
 
     if (userData) {
       res.status(201).json({ token });
@@ -108,13 +104,13 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
-
     if (token) {
       // Decode the token to get its expiry date
-      const expiryDate = new Date((jwt.decode(token) as any).exp * 1000);
-
+      const decoded = jwt.decode(token) as any;
+      const expiryDate = new Date(decoded.exp * 1000);
+      const userId = decoded.userId;
       // Blacklist the token
-      await blacklistToken(token, expiryDate);
+      await blacklistToken(token, expiryDate, userId);
 
       res.json({ message: 'Logged out successfully' });
     } else {

@@ -11,17 +11,25 @@ class TokenDao extends BaseDao<IToken> {
    * Blacklists a token by saving it to the database with an expiry date.
    * @param {string} token - The JWT token to blacklist.
    * @param {Date} expiryDate - The expiry date of the token.
+   * @param {ObjectId} userId - The userId of the user.
    * @returns {Promise<void>}
    */
-  async blacklistToken(token: string, expiryDate: Date): Promise<void> {
-    await this.create({
-      token,
-      expiresAt: expiryDate,
-      type: 'blacklist',
-      userId: new Types.ObjectId(),
-    });
-  }
 
+  async blacklistToken(
+    token: string,
+    expiryDate: Date,
+    userId: Types.ObjectId,
+  ): Promise<void> {
+    const existingToken = await this.findOne({ token });
+    if (!existingToken) {
+      await this.create({
+        token,
+        expiresAt: expiryDate,
+        type: 'blacklist',
+        userId,
+      });
+    }
+  }
   /**
    * Checks if a token is blacklisted.
    * @param {string} token - The JWT token to check.

@@ -10,7 +10,15 @@
       "mongo_connection_string": "EC_MONGO_CONNECTION_STRING_SCHEME",
       "use_env_variable": false,
       "options": {},
-      "debug": true
+      "debug": true,
+      "session_secret": "SESSION_SECRET",
+      "jwt_secret": "JWT_SECRET",
+      "aws": {
+        "aws_access_key_id": "AWS_ACCESS_KEY_ID",
+        "aws_secret_access_key": "AWS_SECRET_ACCESS_KEY",
+        "aws_region": "AWS_REGION",
+        "aws_bucket_name": "AWS_BUCKET_NAME"
+      }
     },
     "production": {
       "database": "express-nuxt",
@@ -21,7 +29,15 @@
       "mongo_host_port": "EC_MONGO_URL",
       "mongo_connection_string": "EC_MONGO_CONNECTION_STRING_SCHEME",
       "use_env_variable": true,
-      "options": {}
+      "options": {},
+      "session_secret": "SESSION_SECRET",
+      "jwt_secret": "JWT_SECRET",
+      "aws": {
+        "aws_access_key_id": "AWS_ACCESS_KEY_ID",
+        "aws_secret_access_key": "AWS_SECRET_ACCESS_KEY",
+        "aws_region": "AWS_REGION",
+        "aws_bucket_name": "AWS_BUCKET_NAME"
+      }
     }
   },
   "access": {
