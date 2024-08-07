@@ -40,7 +40,7 @@ const deleteImages: RequestHandler = async (req, res, next) => {
     const productDao = new ProductDao(ProductModel);
     const oldProductData = await productDao.findProductById(req.params.id);
 
-    await deleteImagesFromBucket(oldProductData?.images || []);
+    await deleteImagesFromBucket(oldProductData?.imageKeys || []);
     next();
   } catch (error) {
     return res
