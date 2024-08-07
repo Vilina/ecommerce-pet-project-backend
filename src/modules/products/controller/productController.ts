@@ -20,7 +20,7 @@ export const createProduct = async (req: any, res: Response) => {
       const productObject = JSON.parse(req.body.data);
       const productData = {
         ...productObject,
-        images: [...filePaths, ...productObject.images],
+        imageKeys: [...filePaths, ...productObject.imageKeys],
       };
       const product = await productDao.createProduct(productData);
       res.status(201).json(product);
@@ -47,7 +47,7 @@ export const getProductById = async (
     const product = await productDao.findProductById(req.params.id);
     if (product) {
       product.imageUrls = [];
-      product.images.map((image: string) => {
+      product.imageKeys.map((image: string) => {
         product.imageUrls?.push(
           `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
         );
