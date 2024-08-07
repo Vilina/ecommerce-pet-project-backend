@@ -4,6 +4,7 @@ import { RequestHandler } from 'express';
 import multerS3 from 'multer-s3';
 import config from '../../config/index';
 import s3 from '../../libs/s3Client';
+import crypto from 'crypto';
 
 // Function to check file type
 function checkFileType(
@@ -30,7 +31,14 @@ const upload: RequestHandler = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString() + '-' + file.originalname);
+      cb(
+        null,
+        crypto.randomUUID() +
+          '-' +
+          Date.now().toString() +
+          '-' +
+          file.originalname,
+      );
     },
   }),
   limits: { fileSize: 1000000 }, // Limit file size to 1MB per file
