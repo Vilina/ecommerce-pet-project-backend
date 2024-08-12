@@ -21,8 +21,8 @@ import './middleware/passport/localPassportConfig';
 const app = express();
 const router = Router();
 
-app.use(router);
 app.use(cors(corsOptions));
+app.use(router);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,12 +43,12 @@ app.use(passport.initialize());
 //attach dynamic user property to request object
 app.use(passport.session());
 app.use(setVisitedSession);
-app.use(corsError);
 
 app.use(authRouter);
 app.use(JWTAuthRouter);
 app.use(userRouter);
 app.use(productRouter);
+app.use(corsError);
 
 const PORT = process.env.PORT || 8000;
 
