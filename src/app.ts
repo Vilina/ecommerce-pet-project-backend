@@ -9,6 +9,9 @@ import passport from 'passport';
 import Router from 'express';
 import MongoStore from 'connect-mongo';
 import config from './config';
+import cors from 'cors';
+import corsOptions from './middleware/cors/corsConfig';
+import corsError from './middleware/cors/corsError';
 
 import { setVisitedSession } from './middleware/passport/strategies/local/local-guards';
 //required to import strategies
@@ -19,6 +22,7 @@ const app = express();
 const router = Router();
 
 app.use(router);
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,6 +43,7 @@ app.use(passport.initialize());
 //attach dynamic user property to request object
 app.use(passport.session());
 app.use(setVisitedSession);
+app.use(corsError);
 
 app.use(authRouter);
 app.use(JWTAuthRouter);
