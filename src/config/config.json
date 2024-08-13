@@ -13,6 +13,7 @@
       "debug": true,
       "session_secret": "SESSION_SECRET",
       "jwt_secret": "JWT_SECRET",
+      "allowed_origins": "ALLOWED_ORIGINS",
       "aws": {
         "aws_access_key_id": "AWS_ACCESS_KEY_ID",
         "aws_secret_access_key": "AWS_SECRET_ACCESS_KEY",
@@ -32,6 +33,7 @@
       "options": {},
       "session_secret": "SESSION_SECRET",
       "jwt_secret": "JWT_SECRET",
+      "allowed_origins": "ALLOWED_ORIGINS",
       "aws": {
         "aws_access_key_id": "AWS_ACCESS_KEY_ID",
         "aws_secret_access_key": "AWS_SECRET_ACCESS_KEY",

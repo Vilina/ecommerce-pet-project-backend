@@ -9,6 +9,9 @@ import passport from 'passport';
 import Router from 'express';
 import MongoStore from 'connect-mongo';
 import config from './config';
+import cors from 'cors';
+import corsOptions from './middleware/cors/corsConfig';
+import corsError from './middleware/cors/corsError';
 
 import { setVisitedSession } from './middleware/passport/strategies/local/local-guards';
 //required to import strategies
@@ -18,6 +21,7 @@ import './middleware/passport/localPassportConfig';
 const app = express();
 const router = Router();
 
+app.use(cors(corsOptions));
 app.use(router);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,6 +48,7 @@ app.use(authRouter);
 app.use(JWTAuthRouter);
 app.use(userRouter);
 app.use(productRouter);
+app.use(corsError);
 
 const PORT = process.env.PORT || 8000;
 
