@@ -25,8 +25,8 @@ const updateS3: RequestHandler = async (req, res, next) => {
       }
       const newProductData = JSON.parse(req.body.data);
       // Compare old image keys to the new ones and delete the ones that are not in the new list
-      const deletedImages = oldProductData?.images.filter(
-        (image: string) => !newProductData.images.includes(image),
+      const deletedImages = oldProductData?.imageKeys.filter(
+        (image: string) => !newProductData.imageKeys.includes(image),
       );
 
       if (deletedImages && deletedImages.length > 0) {
@@ -34,7 +34,7 @@ const updateS3: RequestHandler = async (req, res, next) => {
       }
 
       // Attach new image keys to the request body
-      newProductData.images = [...newProductData.images, ...fileKeys];
+      newProductData.imageKeys = [...newProductData.imageKeys, ...fileKeys];
       req.body.data = JSON.stringify(newProductData);
 
       next();

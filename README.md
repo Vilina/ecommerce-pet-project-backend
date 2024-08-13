@@ -82,3 +82,49 @@ Is a user a web-based MongoDB admin interface that will be available on `http://
 #### Production
 
 For production, we use MongoDB Atlas. Connection params are read from the `.env.production` file.
+
+## S3 Bucket Usage
+
+This project uses AWS S3 for storing and managing images associated with products. Below are the details on how S3 is integrated and used within the project.
+
+### Configuration
+
+The S3 bucket configuration parameters are stored in the `.env` file. Ensure the following environment variables are set:
+
+```dotenv
+AWS_ACCESS_KEY_ID= # AWS access key ID
+AWS_SECRET_ACCESS_KEY= # AWS secret access key
+AWS_REGION= # AWS region, e.g., eu-central-1
+AWS_BUCKET_NAME= # AWS S3 bucket name
+```
+
+### S3 Client Setup
+
+The S3 client is set up using the AWS SDK for JavaScript. The client is configured with the credentials and region specified in the environment variables. Buckets are created manually in aws management console.
+
+### Updating Images in S3
+#### When the product is updated/deleted images stored in AWS S3 are reviewed and updated/deleted accordingly.
+
+1. **Upload New Image**:
+    - Upload the new image to the S3 bucket using the AWS SDK.
+    - Ensure the new image is stored with a unique key (file name).
+
+2. **Update Database Record**:
+    - Update the database record to reference the new image key.
+    - If the old image key is no longer needed, mark it for deletion.
+
+3. **Delete Old Image (Optional)**:
+    - If the old image is no longer needed, delete it from the S3 bucket to free up space.
+
+### Deleting Images from S3
+
+1. **Identify Images to Delete**:
+    - Retrieve the keys of the images that need to be deleted from the database or other sources.
+
+2. **Delete Images from S3**:
+    - Use the AWS SDK to send a delete request for each image key to the S3 bucket.
+    - Ensure that the delete operation is successful by checking the response status.
+
+3. **Update Database Record**:
+    - Remove the references to the deleted image keys from the database.
+    - Ensure the database record is consistent and does not reference any deleted images.
