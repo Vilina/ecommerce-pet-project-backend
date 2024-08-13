@@ -2,7 +2,7 @@ import { CorsOptions } from 'cors';
 import config from '../../config';
 
 // List of allowed origins
-const allowedOrigins: string[] = config.allowed_origin
+const allowedOrigins: string[] = config.allowed_origins
   .split(',')
   .map((origin: string) => origin);
 
