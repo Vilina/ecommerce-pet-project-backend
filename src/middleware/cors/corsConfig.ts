@@ -1,10 +1,10 @@
 import { CorsOptions } from 'cors';
+import config from '../../config';
 
 // List of allowed origins
-const allowedOrigins: string[] = [
-  'http://localhost:3000',
-  'https://nuxt-ecommerce-pet-project.vercel.app/',
-];
+const allowedOrigins: string[] = config.allowed_origin
+  .split(',')
+  .map((origin: string) => origin);
 
 // CORS configuration
 const corsOptions: CorsOptions = {

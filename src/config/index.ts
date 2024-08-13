@@ -28,6 +28,7 @@ const config = {
   options: dbEnvConfig.options,
   session_secret_key: dbEnvConfig.session_secret,
   jwt_secret_key: dbEnvConfig.jwt_secret,
+  allowed_origin: nconf.get(dbEnvConfig.allowed_origin),
   debug: dbEnvConfig.debug,
   aws: {
     aws_access_key_id: nconf.get(dbEnvConfig.aws.aws_access_key_id),
