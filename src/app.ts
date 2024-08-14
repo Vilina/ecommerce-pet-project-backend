@@ -6,48 +6,51 @@ import JWTAuthRouter from './modules/auth/auth-passport-jwt/routes/jwtAuth';
 import productRouter from './modules/products/routes/products';
 import session from 'express-session';
 import passport from 'passport';
-import Router from 'express';
 import MongoStore from 'connect-mongo';
 import config from './config';
 import cors from 'cors';
 import corsOptions from './middleware/cors/corsConfig';
 import corsError from './middleware/cors/corsError';
-
 import { setVisitedSession } from './middleware/passport/strategies/local/local-guards';
-//required to import strategies
+
+// Required to import strategies for passport
 import './middleware/passport/jwtPassportConfig';
 import './middleware/passport/localPassportConfig';
 
 const app = express();
-const router = Router();
 
+// CORS configuration
 app.use(cors(corsOptions));
-app.use(router);
+
+// Parse incoming JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session management
 app.use(
   session({
     secret: config.session_secret_key,
-    saveUninitialized: true,
-    resave: true,
+    saveUninitialized: false,
+    resave: false,
     cookie: {
-      maxAge: 6000 * 60,
+      maxAge: 60000 * 60, // 1 hour
     },
     store: MongoStore.create({ mongoUrl: config.mongodb_uri }),
   }),
 );
 
+// Initialize passport and session handling
 app.use(passport.initialize());
-
-//attach dynamic user property to request object
 app.use(passport.session());
 app.use(setVisitedSession);
 
-app.use(authRouter);
-app.use(JWTAuthRouter);
-app.use(userRouter);
-app.use(productRouter);
+// Route handling
+app.use('/auth', authRouter);
+app.use('/jwt', JWTAuthRouter);
+app.use('/users', userRouter);
+app.use('/products', productRouter);
+
+// Error handling middleware should be at the end
 app.use(corsError);
 
 const PORT = process.env.PORT || 8000;
