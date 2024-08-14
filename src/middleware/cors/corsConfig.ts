@@ -4,7 +4,7 @@ import config from '../../config';
 // List of allowed origins
 const allowedOrigins: string[] = config.allowed_origins
   .split(',')
-  .map((origin: string) => origin);
+  .map((origin: string) => origin.trim());
 
 // CORS configuration
 const corsOptions: CorsOptions = {
