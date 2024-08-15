@@ -45,10 +45,10 @@ app.use(passport.session());
 app.use(setVisitedSession);
 
 // Route handling
-app.use('/auth', authRouter);
-app.use('/jwt', JWTAuthRouter);
-app.use('/users', userRouter);
-app.use('/products', productRouter);
+app.use(authRouter);
+app.use(JWTAuthRouter);
+app.use(userRouter);
+app.use(productRouter);
 
 // Error handling middleware should be at the end
 app.use(corsError);
