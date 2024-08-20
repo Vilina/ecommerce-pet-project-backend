@@ -25,4 +25,6 @@ router.delete(
   ProductController.deleteProductById,
 );
 
+router.get('/products/seller/:id', ProductController.getAllProductsBySellerId);
+
 export default router;

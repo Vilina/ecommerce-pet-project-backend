@@ -16,6 +16,7 @@ export interface IProduct extends Document {
   createdAt: Date;
   updatedAt: Date;
   imageUrls?: string[]; // Array of full URLs to the images in the S3 bucket
+  sellerId: string;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -35,6 +36,7 @@ const productSchema = new Schema<IProduct>(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     imageUrls: { type: [String], required: false }, // Array of full URLs to the images in the S3 bucket
+    sellerId: { type: String, required: true },
   },
   { timestamps: true },
 );

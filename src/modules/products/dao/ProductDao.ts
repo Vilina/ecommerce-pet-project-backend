@@ -62,4 +62,13 @@ export default class ProductDao extends BaseDao<IProduct> {
   async deleteProductById(id: string): Promise<IProduct | null> {
     return this.delete(id);
   }
+
+  /**
+   * Finds all products by the seller's ID.
+   * @param {string} sellerId - The seller ID to search for.
+   * @returns {Promise<IProduct[]>} A promise that resolves to an array of products for the given seller ID.
+   */
+  async findProductsBySellerId(sellerId: string): Promise<IProduct[]> {
+    return this.getModel().find({ sellerId }).exec();
+  }
 }
