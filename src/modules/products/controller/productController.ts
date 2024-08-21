@@ -135,3 +135,21 @@ export const deleteProductById = async (
     res.status(500).json({ message: 'Error deleting product', error });
   }
 };
+
+/**
+ * Finds all products By Seller ID.
+ * @param req - The request object.
+ * @param res - The response object.
+ */
+export const getAllProductsBySellerId = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const productDao = new ProductDao(ProductModel);
+    const products = await productDao.findProductsBySellerId(req.params.id);
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Error finding products', error });
+  }
+};

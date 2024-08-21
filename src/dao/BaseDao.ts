@@ -15,6 +15,11 @@ export default class BaseDao<T extends Document> {
     this.model = model;
   }
 
+  // Add a protected getter
+  protected getModel(): Model<T> {
+    return this.model;
+  }
+
   /**
    * Creates a new document.
    * @param {Partial<T>} data - The data for the new document.
