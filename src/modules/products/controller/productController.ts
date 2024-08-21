@@ -46,7 +46,6 @@ export const getProductById = async (
     const productDao = new ProductDao(ProductModel);
     const product = await productDao.findProductById(req.params.id);
     if (product) {
-      product.imageUrls = [];
       product.imageKeys.map((image: string) => {
         product.imageUrls?.push(
           `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
@@ -75,7 +74,6 @@ export const getAllProducts = async (
     const products = await productDao.findAllProducts();
     if (products) {
       products.map((product) => {
-        product.imageUrls = [];
         product.imageKeys.map((image: string) => {
           product.imageUrls?.push(
             `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
@@ -148,6 +146,15 @@ export const getAllProductsBySellerId = async (
   try {
     const productDao = new ProductDao(ProductModel);
     const products = await productDao.findProductsBySellerId(req.params.id);
+    if (products) {
+      products.map((product) => {
+        product.imageKeys.map((image: string) => {
+          product.imageUrls?.push(
+            `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
+          );
+        });
+      });
+    }
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: 'Error finding products', error });
