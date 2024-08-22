@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ProductDao from '../dao/ProductDao';
-import ProductModel from '../model/ProductModel';
+import ProductModel, { IProduct } from '../model/ProductModel';
 import config from '../../../config';
 
 /**
@@ -23,6 +23,7 @@ export const createProduct = async (req: any, res: Response) => {
         imageKeys: [...filePaths, ...productObject.imageKeys],
       };
       const product = await productDao.createProduct(productData);
+      appendImageUrls(product);
       res.status(201).json(product);
     } else {
       const product = await productDao.createProduct(req.body);
@@ -46,12 +47,7 @@ export const getProductById = async (
     const productDao = new ProductDao(ProductModel);
     const product = await productDao.findProductById(req.params.id);
     if (product) {
-      product.imageUrls = [];
-      product.imageKeys.map((image: string) => {
-        product.imageUrls?.push(
-          `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
-        );
-      });
+      appendImageUrls(product);
       res.status(200).json(product);
     } else {
       res.status(404).json({ message: 'Product not found' });
@@ -75,12 +71,7 @@ export const getAllProducts = async (
     const products = await productDao.findAllProducts();
     if (products) {
       products.map((product) => {
-        product.imageUrls = [];
-        product.imageKeys.map((image: string) => {
-          product.imageUrls?.push(
-            `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`,
-          );
-        });
+        appendImageUrls(product);
       });
     }
     res.status(200).json(products);
@@ -105,6 +96,7 @@ export const updateProductById = async (
       JSON.parse(req.body.data),
     );
     if (product) {
+      appendImageUrls(product);
       res.status(200).json(product);
     } else {
       res.status(404).json({ message: 'Product not found' });
@@ -148,8 +140,24 @@ export const getAllProductsBySellerId = async (
   try {
     const productDao = new ProductDao(ProductModel);
     const products = await productDao.findProductsBySellerId(req.params.id);
+    if (products) {
+      products.map((product) => {
+        appendImageUrls(product);
+      });
+    }
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: 'Error finding products', error });
   }
+};
+
+/**
+ * Appends generated image URLs to the product's imageUrls array.
+ * @param product - The product object containing image keys and URLs.
+ */
+const appendImageUrls = (product: IProduct) => {
+  product.imageKeys.map((image: string) => {
+    const imageUrl = `https://${config.aws.aws_bucket_name}.s3.${config.aws.aws_region}.amazonaws.com/${image}`;
+    product.imageUrls.push(imageUrl);
+  });
 };

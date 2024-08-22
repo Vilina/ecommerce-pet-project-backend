@@ -15,7 +15,7 @@ export interface IProduct extends Document {
   stock: number;
   createdAt: Date;
   updatedAt: Date;
-  imageUrls?: string[]; // Array of full URLs to the images in the S3 bucket
+  imageUrls: string[]; // Array of full URLs to the images in the S3 bucket
   sellerId: string;
 }
 
