@@ -128,3 +128,34 @@ The S3 client is set up using the AWS SDK for JavaScript. The client is configur
 3. **Update Database Record**:
     - Remove the references to the deleted image keys from the database.
     - Ensure the database record is consistent and does not reference any deleted images.
+
+
+## Environments
+
+Backend App exists in 3 environments: `development`, `staging` and `production`.
+Each of them connects to corresponding MongoDB database and AWS S3 bucket.
+
+- **Development environment** is used for local development. 
+
+      DB: local MongoDB run with Docker container
+
+      S3 bucket: S3 bucket with name `jam-ecommerce-image-bucket` for storing images.
+
+- **Staging environment** is used for testing. 
+
+      DB: MongoDB Atlas Org Name: "ecommerce-pet-project" Project name:"ecommerce" cluster0: dajd3ob
+
+      S3 bucket: S3 bucket with name `staging-jam-ecommerce-image-bucket` for storing images.
+
+- **Production environment** is used for Production. 
+
+      DB: MongoDB Atlas Org Name: "ecommerce-pet-project" Project name:"ecommerce-prod" cluster0: vpdx96f
+
+      S3 bucket: S3 bucket with name `prod-jam-ecommerce-image-bucket` for storing images.
+
+### Deployments and Pipelines
+
+- **Local development** connects to  `development` environment. 
+- **Heroku Review Apps** connect to `staging` environment, created for every new PR is destroyed after 2 days of inactivity.
+- **Heroku Staging environment** connects to `staging` environment has latest `main` branch deployed. 
+- **Heroku Production environment** connects to `production` environment has latest `main` branch deployed. 
