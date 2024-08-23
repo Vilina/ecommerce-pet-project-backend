@@ -6,7 +6,7 @@ export interface IProduct extends Document {
   price: number;
   category: string;
   imageKeys: string[]; // Array of keys that are saved in the S3 bucket
-  color: string[];
+  colors: string[];
   manufacturer: string;
   sale: boolean;
   ratings: number;
@@ -26,7 +26,7 @@ const productSchema = new Schema<IProduct>(
     price: { type: Number, required: true },
     category: { type: String, required: true },
     imageKeys: { type: [String], required: true }, // Array of keys that are saved in the S3 bucket
-    color: { type: [String], required: false },
+    colors: { type: [String], required: false },
     manufacturer: { type: String, required: true },
     sale: { type: Boolean, required: true },
     ratings: { type: Number, required: true },

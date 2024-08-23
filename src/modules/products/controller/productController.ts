@@ -26,7 +26,7 @@ export const createProduct = async (req: any, res: Response) => {
       appendImageUrls(product);
       res.status(201).json(product);
     } else {
-      const product = await productDao.createProduct(req.body);
+      const product = await productDao.createProduct(JSON.parse(req.body.data));
       res.status(201).json(product);
     }
   } catch (error) {
